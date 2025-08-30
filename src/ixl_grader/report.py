@@ -11,3 +11,7 @@ class Report:
             self._csv_path is not None
         ), "CSV path must be set before loading the report."
         return pd.read_csv(self._csv_path)
+
+    def import_report(self, csv_path: str) -> None:
+        self._csv_path = csv_path
+        self._report = self._load_report()
