@@ -55,6 +55,11 @@ class Report:
         self._report["Score"] = self._report["SmartScore"].apply(assign_grade)
         return self._report
 
+    def export_report(self, output_path: str) -> None:
+        assert self._report is not None, "Report must be loaded before exporting."
+
+        self._report.to_csv(output_path, index=False)
+
 
 def _fix_column_counts(lines: list[str]) -> list[str]:
     expected_column_count = lines[0].count(",") + 1
