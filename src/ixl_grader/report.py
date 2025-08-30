@@ -20,3 +20,26 @@ class Report:
     def import_report(self, csv_path: str) -> None:
         self._csv_path = csv_path
         self._report = self._load_report()
+
+
+def _fix_column_counts(lines: list[str]) -> list[str]:
+    expected_column_count = lines[0].count(",") + 1
+
+    # Naively fix lines with too many columns by merging a blank cell in the middle of the names
+    for idx, line in enumerate(lines):
+        # Skip the header
+        if idx == 0:
+            continue
+
+        # From IXL, names come before other fields that could also be blank. We'll assume the first
+        # blank cell in a row with too many columns is part of the name.
+        column_count = line.count(",") + 1
+        if column_count > expected_column_count:
+            parts = line.split(",")
+            first_blank_index = parts.index("")
+            # Merge the blank cell with the previous cell (part of the name)
+            parts[first_blank_index - 1] += " " + parts[first_blank_index]
+            del parts[first_blank_index]
+            lines[idx] = ",".join(parts)
+
+    return lines
