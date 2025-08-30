@@ -1,3 +1,5 @@
+import math
+
 import pandas as pd
 
 
@@ -34,6 +36,24 @@ class Report:
         self._fix_csv()
         self._report = self._load_report()
         self._clean_report()
+
+    def grade(self, smart_score_threshold: int) -> pd.DataFrame:
+        assert self._report is not None, "Report must be loaded before grading."
+
+        def assign_grade(smart_score):
+            if smart_score is None or pd.isna(smart_score):
+                return math.nan
+
+            return float(
+                round(
+                    100
+                    * min(smart_score, smart_score_threshold)
+                    / smart_score_threshold
+                )
+            )
+
+        self._report["Score"] = self._report["SmartScore"].apply(assign_grade)
+        return self._report
 
 
 def _fix_column_counts(lines: list[str]) -> list[str]:
