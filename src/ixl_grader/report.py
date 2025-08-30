@@ -24,6 +24,11 @@ class Report:
         ), "CSV path must be set before loading the report."
         return pd.read_csv(self._csv_path)
 
+    def _clean_report(self) -> None:
+        assert self._report is not None, "Report must be loaded before cleaning."
+
+        raise NotImplementedError("Cleaning the report is not yet implemented.")
+
     def import_report(self, csv_path: str) -> None:
         self._csv_path = csv_path
         self._fix_csv()
