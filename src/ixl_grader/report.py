@@ -26,6 +26,7 @@ class Report:
 
     def import_report(self, csv_path: str) -> None:
         self._csv_path = csv_path
+        self._fix_csv()
         self._report = self._load_report()
 
 
