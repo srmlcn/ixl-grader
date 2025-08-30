@@ -56,3 +56,12 @@ def _fix_column_counts(lines: list[str]) -> list[str]:
             lines[idx] = ",".join(parts)
 
     return lines
+
+
+def _clean_ids(report: pd.DataFrame) -> pd.DataFrame:
+    # Some Student IDs are incorrectly formatted as "ID0123456789" instead of "0123456789"
+    report["Student ID"] = (
+        report["Student ID"].astype(str).str.lstrip("ID").astype(str).str.strip()
+    )
+
+    return report
