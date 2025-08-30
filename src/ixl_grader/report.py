@@ -33,6 +33,7 @@ class Report:
         self._csv_path = csv_path
         self._fix_csv()
         self._report = self._load_report()
+        self._clean_report()
 
 
 def _fix_column_counts(lines: list[str]) -> list[str]:
