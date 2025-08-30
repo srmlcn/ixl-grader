@@ -1,5 +1,8 @@
+from ixl_grader.argument_parser import get_args
+
+
 def main():
-    print("Hello from IXL Grader!")
+    args = get_args()
 
 
 if __name__ == "__main__":
