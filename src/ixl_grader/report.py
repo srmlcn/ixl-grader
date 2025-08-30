@@ -1,3 +1,3 @@
 class Report:
     def __init__(self):
-        pass
+        self._csv_path: str | None = None
