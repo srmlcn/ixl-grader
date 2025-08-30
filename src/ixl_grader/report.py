@@ -27,7 +27,7 @@ class Report:
     def _clean_report(self) -> None:
         assert self._report is not None, "Report must be loaded before cleaning."
 
-        raise NotImplementedError("Cleaning the report is not yet implemented.")
+        self._report = _clean_ids(self._report)
 
     def import_report(self, csv_path: str) -> None:
         self._csv_path = csv_path
