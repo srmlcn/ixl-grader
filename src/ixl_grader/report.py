@@ -9,7 +9,14 @@ class Report:
     def _fix_csv(self) -> None:
         assert self._csv_path is not None, "CSV path must be set before fixing the CSV."
 
-        raise NotImplementedError("CSV fixing not yet implemented.")
+        with open(self._csv_path, "r", encoding="utf-8") as file:
+            lines = file.readlines()
+
+        # Some CSVs from IXL have more columns than expected, likely due to commas in names
+        lines = _fix_column_counts(lines)
+
+        with open(self._csv_path, "w", encoding="utf-8") as file:
+            file.writelines(lines)
 
     def _load_report(self) -> pd.DataFrame:
         assert (
