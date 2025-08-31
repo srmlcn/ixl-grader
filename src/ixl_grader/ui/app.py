@@ -3,6 +3,7 @@ import streamlit as st
 from ixl_grader.ui.components import (
     render_file_uploader,
     render_file_viewer,
+    render_grade_button,
     render_grading_info,
     render_grading_params,
     render_sample_calculations,
@@ -47,3 +48,5 @@ def render():
         with subcol4:
             if is_uploaded() and is_gradable():
                 render_sample_calculations()
+
+        render_grade_button()
