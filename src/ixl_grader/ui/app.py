@@ -1,5 +1,6 @@
 import streamlit as st
 
+from ixl_grader.ui.components import render_file_uploader
 from ixl_grader.ui.session import initialize_session_state
 
 
@@ -20,8 +21,8 @@ def render():
     col1, col2 = st.columns([1, 1], gap="large")
 
     with col1:
-        # Upload new file section
-        pass
+        # File upload section
+        render_file_uploader()
 
     with col2:
         # Grading section
