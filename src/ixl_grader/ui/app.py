@@ -8,6 +8,7 @@ from ixl_grader.ui.components import (
     render_grading_params,
     render_results_summary,
     render_sample_calculations,
+    render_footer,
 )
 from ixl_grader.ui.session import initialize_session_state
 from ixl_grader.ui.session.file_upload import is_uploaded
@@ -54,3 +55,5 @@ def render():
 
         if is_graded():
             render_results_summary()
+
+    render_footer()
