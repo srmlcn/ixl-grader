@@ -1,7 +1,11 @@
 import streamlit as st
 
-from ixl_grader.ui.components import render_file_uploader
+from ixl_grader.ui.components import (
+    render_file_uploader,
+    render_file_viewer,
+)
 from ixl_grader.ui.session import initialize_session_state
+from ixl_grader.ui.session.file_upload import is_uploaded
 
 
 def render():
@@ -23,6 +27,10 @@ def render():
     with col1:
         # File upload section
         render_file_uploader()
+
+        # Show file details and preview if file is uploaded
+        if is_uploaded():
+            render_file_viewer()
 
     with col2:
         # Grading section
