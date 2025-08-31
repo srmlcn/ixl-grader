@@ -36,3 +36,12 @@ def render():
     with col2:
         # Grading parameters section
         render_grading_params()
+
+        subcol3, subcol4 = st.columns([1, 1])
+        with subcol3:
+            # Grading information section
+            pass
+
+        with subcol4:
+            # Sample calculations section
+            pass
