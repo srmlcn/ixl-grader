@@ -1,5 +1,7 @@
 import streamlit as st
 
+from ixl_grader.ui.session import initialize_session_state
+
 
 def render():
     """Render the main application"""
@@ -10,6 +12,9 @@ def render():
 
     st.title("📊 IXL Assignment Grader")
     st.markdown("Upload your IXL assignments CSV file and set grading parameters.")
+
+    # Initialize session state
+    initialize_session_state()
 
     # Main content area
     col1, col2 = st.columns([1, 1], gap="large")
