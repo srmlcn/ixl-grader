@@ -5,9 +5,11 @@ from ixl_grader.ui.components import (
     render_file_viewer,
     render_grading_info,
     render_grading_params,
+    render_sample_calculations,
 )
 from ixl_grader.ui.session import initialize_session_state
 from ixl_grader.ui.session.file_upload import is_uploaded
+from ixl_grader.ui.session.grade import is_gradable, is_graded
 
 
 def render():
@@ -43,5 +45,5 @@ def render():
             render_grading_info()
 
         with subcol4:
-            # Sample calculations section
-            pass
+            if is_uploaded() and is_gradable():
+                render_sample_calculations()
