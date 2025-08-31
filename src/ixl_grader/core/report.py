@@ -1,4 +1,6 @@
 import math
+from os import PathLike
+from typing import TextIO
 
 import pandas as pd
 
@@ -37,7 +39,13 @@ class Report:
         self._report = self._load_report()
         self._clean_report()
 
-    def grade(self, smart_score_threshold: int) -> pd.DataFrame:
+    def get_df(self) -> pd.DataFrame:
+        assert (
+            self._report is not None
+        ), "Report must be loaded before accessing DataFrame."
+        return self._report.copy()
+
+    def grade(self, smart_score_threshold: int) -> None:
         assert self._report is not None, "Report must be loaded before grading."
 
         def assign_grade(smart_score):
@@ -53,12 +61,11 @@ class Report:
             )
 
         self._report["Score"] = self._report["SmartScore"].apply(assign_grade)
-        return self._report
 
-    def export_report(self, output_path: str) -> None:
+    def export_report(self, output: str | PathLike | TextIO) -> None:
         assert self._report is not None, "Report must be loaded before exporting."
 
-        self._report.to_csv(output_path, index=False)
+        self._report.to_csv(output, index=False)
 
 
 def _fix_column_counts(lines: list[str]) -> list[str]:
