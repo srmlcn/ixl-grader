@@ -3,6 +3,7 @@ import streamlit as st
 from ixl_grader.ui.components import (
     render_file_uploader,
     render_file_viewer,
+    render_grading_info,
     render_grading_params,
 )
 from ixl_grader.ui.session import initialize_session_state
@@ -39,8 +40,7 @@ def render():
 
         subcol3, subcol4 = st.columns([1, 1])
         with subcol3:
-            # Grading information section
-            pass
+            render_grading_info()
 
         with subcol4:
             # Sample calculations section
