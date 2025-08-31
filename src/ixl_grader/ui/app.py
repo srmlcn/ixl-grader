@@ -3,6 +3,7 @@ import streamlit as st
 from ixl_grader.ui.components import (
     render_file_uploader,
     render_file_viewer,
+    render_grading_params,
 )
 from ixl_grader.ui.session import initialize_session_state
 from ixl_grader.ui.session.file_upload import is_uploaded
@@ -33,5 +34,5 @@ def render():
             render_file_viewer()
 
     with col2:
-        # Grading section
-        pass
+        # Grading parameters section
+        render_grading_params()
