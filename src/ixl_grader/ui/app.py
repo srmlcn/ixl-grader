@@ -6,6 +6,7 @@ from ixl_grader.ui.components import (
     render_grade_button,
     render_grading_info,
     render_grading_params,
+    render_results_summary,
     render_sample_calculations,
 )
 from ixl_grader.ui.session import initialize_session_state
@@ -50,3 +51,6 @@ def render():
                 render_sample_calculations()
 
         render_grade_button()
+
+        if is_graded():
+            render_results_summary()
