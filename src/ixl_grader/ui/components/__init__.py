@@ -6,6 +6,7 @@ from .grading_params import render_grading_params
 from .results_summary import render_results_summary
 from .sample_calculations import render_sample_calculations
 from .footer import render_footer
+from .student_overrides import render_student_overrides_uploader, render_individual_student_override
 
 
 __all__ = [
@@ -17,4 +18,6 @@ __all__ = [
     "render_results_summary",
     "render_sample_calculations",
     "render_footer",
+    "render_student_overrides_uploader",
+    "render_individual_student_override",
 ]

@@ -30,6 +30,10 @@ def handle_file_upload(uploaded_file):
 
     # Reset graded status when a new file is uploaded
     st.session_state.is_graded = False
+    
+    # Reset student overrides when a new report is uploaded
+    st.session_state.uploaded_overrides_file = None
+    st.session_state.has_student_overrides = False
 
 
 def is_uploaded() -> bool:

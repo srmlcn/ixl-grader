@@ -9,6 +9,8 @@ from ixl_grader.ui.components import (
     render_results_summary,
     render_sample_calculations,
     render_footer,
+    render_student_overrides_uploader,
+    render_individual_student_override,
 )
 from ixl_grader.ui.session import initialize_session_state
 from ixl_grader.ui.session.file_upload import is_uploaded
@@ -38,10 +40,17 @@ def render():
         # Show file details and preview if file is uploaded
         if is_uploaded():
             render_file_viewer()
+            
+        # Student overrides section
+        render_student_overrides_uploader()
 
     with col2:
         # Grading parameters section
         render_grading_params()
+        
+        # Individual student override editor
+        if is_uploaded():
+            render_individual_student_override()
 
         subcol3, subcol4 = st.columns([1, 1])
         with subcol3:

@@ -13,3 +13,7 @@ def initialize_session_state():
         st.session_state.smart_score_threshold = 80
     if "is_graded" not in st.session_state:
         st.session_state.is_graded = False
+    if "uploaded_overrides_file" not in st.session_state:
+        st.session_state.uploaded_overrides_file = None
+    if "has_student_overrides" not in st.session_state:
+        st.session_state.has_student_overrides = False
