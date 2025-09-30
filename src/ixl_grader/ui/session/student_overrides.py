@@ -15,14 +15,16 @@ def handle_student_overrides_upload(uploaded_file):
             tmp_file.write(uploaded_file.getvalue())
             tmp_file.flush()
             
-            # Import overrides into the current report
+            # Import overrides - create report if needed
             report = get_report()
-            if report is not None:
-                report.import_student_overrides(csv_path=tmp_file.name)
-                # Note: No need to set session state as overrides are now persisted locally
-            else:
-                st.error("Please upload a report file first")
-                return
+            if report is None:
+                # Create a temporary report just for override management
+                from ixl_grader.core.report import Report
+                from ixl_grader.ui.session.report import set_report
+                report = Report()
+                set_report(report)
+            
+            report.import_student_overrides(csv_path=tmp_file.name)
                 
     except Exception as e:
         st.error(f"❌ Error uploading student overrides file: {str(e)}")
@@ -47,17 +49,28 @@ def has_student_overrides() -> bool:
     # Check if we have a report with overrides loaded
     from ixl_grader.ui.session.report import get_report
     report = get_report()
-    if report is not None:
-        return report.has_student_overrides()
-    return False
+    if report is not None and report.has_student_overrides():
+        return True
+    
+    # Also check persistent storage directly
+    from ixl_grader.core.persistence import get_local_storage
+    local_storage = get_local_storage()
+    return local_storage.has_student_overrides()
 
 
 def clear_student_overrides():
     """Clear all student overrides from persistent storage"""
-    from ixl_grader.ui.session.report import get_report
+    # Create a report if none exists to access the overrides manager
+    from ixl_grader.ui.session.report import get_report, set_report
     report = get_report()
+    if report is None:
+        from ixl_grader.core.report import Report
+        report = Report()
+        set_report(report)
+    
     if report is not None:
         report.get_student_overrides().clear_all_overrides()
+    
     # Also clear from session state
     if hasattr(st.session_state, 'uploaded_overrides_file'):
         st.session_state.uploaded_overrides_file = None
