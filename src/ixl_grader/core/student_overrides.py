@@ -1,12 +1,25 @@
 import pandas as pd
 from typing import Optional, Dict, Tuple
 
+from .persistence import get_local_storage
+
 
 class StudentOverrides:
     """Manages student-specific grade minimum and smart score threshold overrides."""
     
     def __init__(self):
         self._overrides: pd.DataFrame | None = None
+        self._local_storage = get_local_storage()
+        # Load existing overrides from local storage on initialization
+        self._load_from_local_storage()
+    
+    def _load_from_local_storage(self) -> None:
+        """Load student overrides from local storage."""
+        self._overrides = self._local_storage.load_student_overrides()
+    
+    def _save_to_local_storage(self) -> None:
+        """Save current overrides to local storage."""
+        self._local_storage.save_student_overrides(self._overrides)
     
     def import_overrides(self, csv_path: str) -> None:
         """Import student overrides from CSV file.
@@ -25,6 +38,9 @@ class StudentOverrides:
             # Clean and validate data
             df = self._clean_overrides_data(df)
             self._overrides = df
+            
+            # Save to local storage for persistence
+            self._save_to_local_storage()
             
         except Exception as e:
             raise ValueError(f"Error importing student overrides: {str(e)}")
@@ -77,6 +93,9 @@ class StudentOverrides:
                 "Minimum Grade": [minimum_grade]
             })
             self._overrides = pd.concat([self._overrides, new_override], ignore_index=True)
+        
+        # Save to local storage for persistence
+        self._save_to_local_storage()
     
     def get_override(self, student_id: str) -> Tuple[Optional[float], Optional[float]]:
         """Get smart score threshold and minimum grade for a student.
@@ -107,6 +126,9 @@ class StudentOverrides:
         
         student_id = str(student_id).lstrip("ID").strip()
         self._overrides = self._overrides[self._overrides["Student ID"] != student_id]
+        
+        # Save to local storage for persistence
+        self._save_to_local_storage()
     
     def get_all_overrides(self) -> pd.DataFrame:
         """Get all student overrides as a DataFrame."""
@@ -124,3 +146,8 @@ class StudentOverrides:
             raise ValueError("No overrides to export")
         
         self._overrides.to_csv(output_path, index=False)
+    
+    def clear_all_overrides(self) -> None:
+        """Clear all student overrides from both memory and local storage."""
+        self._overrides = None
+        self._local_storage.clear_student_overrides()

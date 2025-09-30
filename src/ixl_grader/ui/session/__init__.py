@@ -15,5 +15,4 @@ def initialize_session_state():
         st.session_state.is_graded = False
     if "uploaded_overrides_file" not in st.session_state:
         st.session_state.uploaded_overrides_file = None
-    if "has_student_overrides" not in st.session_state:
-        st.session_state.has_student_overrides = False
+    # Note: has_student_overrides removed as overrides are now persistent

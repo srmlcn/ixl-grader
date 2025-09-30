@@ -33,7 +33,14 @@ def render_student_overrides_uploader():
     
     # Show status and sample format
     if has_student_overrides():
-        st.success("✅ Student overrides loaded")
+        col1, col2 = st.columns([3, 1])
+        with col1:
+            st.success("✅ Student overrides loaded (persisted locally)")
+        with col2:
+            if st.button("🗑️ Clear All", help="Clear all persisted student overrides", key="clear_overrides"):
+                from ixl_grader.ui.session.student_overrides import clear_student_overrides
+                clear_student_overrides()
+                st.rerun()
         
         # Show preview of loaded overrides
         report = get_report()
@@ -42,7 +49,13 @@ def render_student_overrides_uploader():
             if len(overrides_df) > 0:
                 st.subheader("📋 Loaded Overrides Preview")
                 st.dataframe(overrides_df.head(), use_container_width=True)
-                st.info(f"Total overrides loaded: {len(overrides_df)}")
+                st.info(f"💾 Total overrides persisted: {len(overrides_df)} (saved to local storage)")
+    else:
+        # Check if we have persistent overrides but no report loaded
+        from ixl_grader.core.persistence import get_local_storage
+        local_storage = get_local_storage()
+        if local_storage.has_student_overrides():
+            st.info("💾 Student overrides found in local storage - they will be loaded automatically when you upload a report")
     
     # Show expected CSV format
     with st.expander("📄 Expected CSV Format"):
@@ -62,7 +75,13 @@ def render_student_overrides_uploader():
         
         - Leave cells empty if no override is needed for that student/field
         - Student IDs will be automatically cleaned (removes "ID" prefix)
+        - **🔄 Persistence**: All overrides are automatically saved to local storage 
+          and will persist across browser sessions on this computer
         """)
+        
+    # Show persistence info
+    st.markdown("---")
+    st.markdown("**💾 Local Storage**: Student overrides are automatically saved to your computer and will persist even after closing the browser tab.")
 
 
 def render_individual_student_override():

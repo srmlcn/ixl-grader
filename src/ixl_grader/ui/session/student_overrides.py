@@ -19,22 +19,21 @@ def handle_student_overrides_upload(uploaded_file):
             report = get_report()
             if report is not None:
                 report.import_student_overrides(csv_path=tmp_file.name)
-                st.session_state.has_student_overrides = True
+                # Note: No need to set session state as overrides are now persisted locally
             else:
                 st.error("Please upload a report file first")
                 return
                 
     except Exception as e:
         st.error(f"❌ Error uploading student overrides file: {str(e)}")
-        st.session_state.has_student_overrides = False
         return
     
-    # Store the uploaded overrides file in session state
+    # Store the uploaded overrides file in session state for UI feedback
     st.session_state.uploaded_overrides_file = uploaded_file
     
 
 def is_overrides_uploaded() -> bool:
-    """Check if a student overrides file has been uploaded"""
+    """Check if a student overrides file has been uploaded in this session"""
     return getattr(st.session_state, 'uploaded_overrides_file', None) is not None
 
 
@@ -44,11 +43,21 @@ def get_uploaded_overrides_file():
 
 
 def has_student_overrides() -> bool:
-    """Check if student overrides are loaded"""
-    return getattr(st.session_state, 'has_student_overrides', False)
+    """Check if student overrides are loaded (from persistent storage or session)"""
+    # Check if we have a report with overrides loaded
+    from ixl_grader.ui.session.report import get_report
+    report = get_report()
+    if report is not None:
+        return report.has_student_overrides()
+    return False
 
 
-@session_updater
-def set_has_student_overrides(value: bool):
-    """Set whether student overrides are loaded"""
-    st.session_state.has_student_overrides = value
+def clear_student_overrides():
+    """Clear all student overrides from persistent storage"""
+    from ixl_grader.ui.session.report import get_report
+    report = get_report()
+    if report is not None:
+        report.get_student_overrides().clear_all_overrides()
+    # Also clear from session state
+    if hasattr(st.session_state, 'uploaded_overrides_file'):
+        st.session_state.uploaded_overrides_file = None
