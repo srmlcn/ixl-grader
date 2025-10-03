@@ -8,7 +8,7 @@ class StudentOverrides:
     """Manages student-specific grade minimum and smart score threshold overrides."""
     
     def __init__(self):
-        self._overrides: pd.DataFrame | None = None
+        self._overrides: Optional[pd.DataFrame] = None
         self._local_storage = get_local_storage()
         # Load existing overrides from local storage on initialization
         self._load_from_local_storage()
