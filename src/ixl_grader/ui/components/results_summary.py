@@ -38,9 +38,11 @@ def render_results_summary():
         else:
             st.metric("Pass Rate", "N/A")
 
-    # Show graded data preview
+    # Show graded data preview (top 5, limited columns)
     st.subheader("📊 Graded Results Preview")
-    st.dataframe(graded_df, use_container_width=True)
+    preview_cols = ["Student ID", "Last name", "First name", "SmartScore", "Score"]
+    preview_existing = [c for c in preview_cols if c in graded_df.columns]
+    st.dataframe(graded_df[preview_existing].head(5), use_container_width=True)
 
     # Prepare CSV for download
     buffer = io.StringIO()

@@ -4,15 +4,13 @@ from ixl_grader.ui.components import (
     render_file_uploader,
     render_file_viewer,
     render_grade_button,
-    render_grading_info,
     render_grading_params,
     render_results_summary,
-    render_sample_calculations,
     render_footer,
 )
 from ixl_grader.ui.session import initialize_session_state
 from ixl_grader.ui.session.file_upload import is_uploaded
-from ixl_grader.ui.session.grade import is_gradable, is_graded
+from ixl_grader.ui.session.grade import is_graded
 
 
 def render():
@@ -40,17 +38,10 @@ def render():
             render_file_viewer()
 
     with col2:
-        # Grading parameters section
+        # Grading parameters section (now includes student overrides)
         render_grading_params()
 
-        subcol3, subcol4 = st.columns([1, 1])
-        with subcol3:
-            render_grading_info()
-
-        with subcol4:
-            if is_uploaded() and is_gradable():
-                render_sample_calculations()
-
+        # Removed extra informational sections for a cleaner UI
         render_grade_button()
 
         if is_graded():
