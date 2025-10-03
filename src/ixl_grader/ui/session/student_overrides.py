@@ -68,8 +68,8 @@ def clear_student_overrides():
         report = Report()
         set_report(report)
     
-    if report is not None:
-        report.get_student_overrides().clear_all_overrides()
+    report.get_student_overrides().clear_all_overrides()
+    
     
     # Also clear from session state
     if hasattr(st.session_state, 'uploaded_overrides_file'):
