@@ -19,6 +19,7 @@ def render_grading_params():
     smart_score_threshold = get_smart_score_threshold()
 
     st.header("🎯 Grading Parameters")
+    st.markdown("Configure the SmartScore threshold and optional student accommodations.")
 
     # Global threshold settings
     subcol1, subcol2 = st.columns([1, 1])
