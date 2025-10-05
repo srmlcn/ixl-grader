@@ -26,25 +26,20 @@ def render():
     # Initialize session state
     initialize_session_state()
 
-    # Main content area
-    col1, col2 = st.columns([1, 1], gap="large")
+    # File upload section
+    render_file_uploader()
 
-    with col1:
-        # File upload section
-        render_file_uploader()
+    # Show file details and preview if file is uploaded
+    if is_uploaded():
+        render_file_viewer()
 
-        # Show file details and preview if file is uploaded
-        if is_uploaded():
-            render_file_viewer()
+    # Grading parameters section (now includes student overrides)
+    render_grading_params()
 
-    with col2:
-        # Grading parameters section (now includes student overrides)
-        render_grading_params()
+    # Grading button
+    render_grade_button()
 
-        # Removed extra informational sections for a cleaner UI
-        render_grade_button()
-
-        if is_graded():
-            render_results_summary()
+    if is_graded():
+        render_results_summary()
 
     render_footer()
