@@ -11,6 +11,9 @@ from ixl_grader.ui.session.report import get_report
 
 
 def render_grade_button() -> None:
+    st.header("🚀 Grade Assignments")
+    st.markdown("Review your settings and click the button to grade all assignments.")
+    
     button_placeholder = st.empty()
 
     if is_uploaded() and is_gradable() and not is_graded():
