@@ -31,15 +31,19 @@ def render():
 
     # Show file details and preview if file is uploaded
     if is_uploaded():
+        st.markdown("---")
         render_file_viewer()
 
     # Grading parameters section (now includes student overrides)
+    st.markdown("---")
     render_grading_params()
 
     # Grading button
+    st.markdown("---")
     render_grade_button()
 
     if is_graded():
+        st.markdown("---")
         render_results_summary()
 
     render_footer()
