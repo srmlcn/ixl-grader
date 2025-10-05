@@ -31,7 +31,6 @@ def render():
 
     # Show file details and preview if file is uploaded
     if is_uploaded():
-        st.markdown("---")
         render_file_viewer()
 
     # Grading parameters section (now includes student overrides)
