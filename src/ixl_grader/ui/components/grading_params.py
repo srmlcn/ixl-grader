@@ -34,6 +34,4 @@ def render_grading_params():
     with subcol2:
         st.metric("SmartScore Threshold", f"{threshold}%")
 
-    # Student overrides section (hidden behind a dropdown)
-    st.markdown("---")
     render_student_overrides_section()
