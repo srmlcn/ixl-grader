@@ -187,7 +187,9 @@ def render_overrides_status():
             overrides_df = _ls_df if (_ls_df is not None and not _ls_df.empty) else None
 
         if overrides_df is not None and len(overrides_df) > 0:
-            st.caption(f"💾 Total overrides: {len(overrides_df)}")
+            with st.container(horizontal_alignment="right", horizontal=True):
+                st.caption(f"💾 Total overrides: {len(overrides_df)}", width="content")
+
             st.dataframe(overrides_df, use_container_width=True)
 
     else:
