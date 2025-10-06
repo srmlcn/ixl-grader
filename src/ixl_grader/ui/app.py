@@ -16,9 +16,7 @@ from ixl_grader.ui.session.grade import is_graded
 def render():
     """Render the main application"""
 
-    st.set_page_config(
-        page_title="IXL Assignment Grader", page_icon="📊"
-    )
+    st.set_page_config(page_title="IXL Assignment Grader", page_icon="📊")
 
     st.title("📊 IXL Assignment Grader")
     st.markdown("Upload your IXL assignments CSV file and set grading parameters.")
@@ -33,16 +31,14 @@ def render():
     if is_uploaded():
         render_file_viewer()
 
-    # Grading parameters section (now includes student overrides)
-    st.markdown("---")
+    # Grading parameters section
     render_grading_params()
 
-    # Grading button
-    st.markdown("---")
-    render_grade_button()
+    if is_uploaded():
+        # Grading button
+        render_grade_button()
 
-    if is_graded():
-        st.markdown("---")
-        render_results_summary()
+        if is_graded():
+            render_results_summary()
 
     render_footer()
