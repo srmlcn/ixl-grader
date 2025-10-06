@@ -10,6 +10,9 @@ from ixl_grader.ui.session.report import get_report
 def render_results_summary():
     """Render the results summary, statistics, and download button"""
 
+    st.header("📊 Results Summary")
+    st.markdown("View grading statistics and download the graded results.")
+
     report = get_report()
     graded_df = report.get_df()
 

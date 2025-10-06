@@ -6,6 +6,8 @@ from ixl_grader.ui.session.file_upload import get_uploaded_file, handle_file_upl
 def render_file_uploader():
     """Render the file uploader component"""
     st.header("📁 Upload File")
+    st.markdown("Upload your IXL assignments CSV file to begin grading.")
+    
     uploaded_file = st.file_uploader(
         "Choose your IXL assignments CSV file",
         type=["csv"],
