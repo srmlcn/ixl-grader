@@ -187,10 +187,8 @@ def render_overrides_status():
             overrides_df = _ls_df if (_ls_df is not None and not _ls_df.empty) else None
 
         if overrides_df is not None and len(overrides_df) > 0:
+            st.caption(f"💾 Total overrides: {len(overrides_df)}")
             st.dataframe(overrides_df, use_container_width=True)
-            st.caption(
-                f"💾 Total overrides persisted: {len(overrides_df)} (saved to local storage)"
-            )
 
     else:
         # Check if we have persistent overrides but no report loaded
