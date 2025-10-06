@@ -35,13 +35,21 @@ def render_student_overrides_section():
                 if st.button("📁 Upload", key="overrides_upload_btn"):
                     st.session_state["show_overrides_uploader"] = True
         with col_help:
-            section = st.container(horizontal_alignment="right")
+            section = st.container(horizontal_alignment="right", horizontal=True)
             with section:
                 if st.button("❓ Info", key="overrides_help_btn"):
                     # Toggle the help panel open/closed
                     st.session_state["overrides_help_open"] = not st.session_state.get(
                         "overrides_help_open", False
                     )
+
+                if st.button(
+                    "🗑️ Clear All",
+                    help="Clear all persisted student overrides",
+                    key="clear_overrides",
+                ):
+                    clear_student_overrides()
+                    st.rerun()
 
         # Closable help panel (modal-style fallback)
         if st.session_state.get("overrides_help_open", False):
@@ -163,20 +171,8 @@ def render_overrides_status():
 
     if has_student_overrides():
         # Status row with message (left) and clear button (right)
-        # col_left, col_right = st.columns([1, 1])
         with st.container(horizontal=True):
-            # with col_left:
-            with st.container(width="stretch"):
-                st.success("✅ Student overrides loaded")
-            # with col_right:
-            with st.container(horizontal_alignment="right"):
-                if st.button(
-                    "🗑️ Clear All",
-                    help="Clear all persisted student overrides",
-                    key="clear_overrides",
-                ):
-                    clear_student_overrides()
-                    st.rerun()
+            st.success("✅ Student overrides loaded")
 
         # Show preview of loaded overrides directly below the status, hidden behind a dropdown
         # Try to read from the current report; fall back to local storage if needed
