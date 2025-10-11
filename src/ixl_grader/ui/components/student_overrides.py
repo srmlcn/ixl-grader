@@ -1,5 +1,3 @@
-import io
-
 import streamlit as st
 
 from ixl_grader.ui.session.student_overrides import (
@@ -87,7 +85,7 @@ def render_student_overrides_section():
                     - 🔄 Persistence: Overrides are saved to local storage and persist across browser sessions on this computer
                     """
                 )
-                
+
                 # Download template button
                 template_csv = _generate_template_csv()
                 st.download_button(
