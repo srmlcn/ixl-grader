@@ -9,6 +9,15 @@ from ixl_grader.ui.session.student_overrides import (
 from ixl_grader.ui.session.report import get_report
 
 
+def _generate_template_csv() -> str:
+    """Generate a CSV template with headers and example students."""
+    template_data = """Student ID,Smart Score Threshold,Minimum Grade
+12345,70,60
+67890,,50
+11111,85,"""
+    return template_data
+
+
 def render_student_overrides_section():
     """Render the student overrides section within grading parameters.
     - Hidden behind a dropdown (expander)
@@ -75,6 +84,17 @@ def render_student_overrides_section():
                     - Student IDs are automatically cleaned (removes the "ID" prefix)
                     - 🔄 Persistence: Overrides are saved to local storage and persist across browser sessions on this computer
                     """
+                )
+
+                # Download template button
+                template_csv = _generate_template_csv()
+                st.download_button(
+                    label="📥 Download Starting Template",
+                    data=template_csv,
+                    file_name="student_overrides_template.csv",
+                    mime="text/csv",
+                    help="Download a CSV template with headers and example students",
+                    use_container_width=True,
                 )
 
         # Reveal the file uploader only after clicking Upload
